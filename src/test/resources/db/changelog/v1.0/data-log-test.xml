@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+
+    <property name="profileName" value="test"/>
+
+    <changeSet id="initial_data_for_creative" author="mazvydas.mackevicius@debitum.network">
+        <loadData encoding="UTF-8"
+                  file="db/load-data-csv/v1.0/users.csv"
+                  separator=";"
+                  tableName="USERS"/>
+
+        <loadData encoding="UTF-8"
+                  file="db/load-data-csv/v1.0/user_credential.csv"
+                  separator=";"
+                  tableName="USER_CREDENTIAL"/>
+
+        <loadData encoding="UTF-8"
+                  file="db/load-data-csv/v1.0/action_token.csv"
+                  separator=";"
+                  tableName="ACTION_TOKEN"/>
+        <loadData encoding="UTF-8"
+                  file="db/load-data-csv/v1.0/user_roles.csv"
+                  separator=";"
+                  tableName="USER_ROLES"/>
+
+        <loadData encoding="UTF-8"
+                  file="db/load-data-csv/v1.0/invoices.csv"
+                  separator=";"
+                  tableName="INVOICE"/>
+        <loadData encoding="UTF-8"
+                  file="db/load-data-csv/v1.0/investments.csv"
+                  separator=";"
+                  tableName="INVESTMENT"/>
+
+        <loadData encoding="UTF-8"
+                  file="db/load-data-csv/v1.0/investment-entries.csv"
+                  separator=";"
+                  tableName="INVESTMENT_ENTRY"/>
+
+    </changeSet>
+</databaseChangeLog>

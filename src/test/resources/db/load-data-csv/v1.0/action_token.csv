@@ -1,0 +1,4 @@
+id;activation_key;key_type;user_id;created_timestamp_utc;used_timestamp_utc
+10001;password-activation;INITIAL_PASSWORD_SET;f954f7a8-7bfc-11e7-bb31-be2e44b06b34;2000-01-01T00:00:00.000Z;null
+10002;password-activation-used;INITIAL_PASSWORD_SET;f954f046-7bfc-11e7-bb31-be2e44b06b34;2000-01-01T00:00:00.000Z;2000-01-01T00:00:00.000Z
+10003;reset-password;PASSWORD_REMIND;f954f046-7bfc-11e7-bb31-be2e44b06b34;2000-01-01T00:00:00.000Z;null

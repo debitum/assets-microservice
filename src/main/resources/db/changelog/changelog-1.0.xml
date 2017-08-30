@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+
+
+    <changeSet id="1" author="mazvydas.mackevicius@debitum.network">
+        <comment>user_creation</comment>
+
+        <createSequence sequenceName="roles_id_seq" startValue="1000"/>
+        <createSequence sequenceName="users_credential_id_seq" startValue="1000"/>
+
+        <createTable tableName="USERS">
+            <column name="ID" type="UUID">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="LOGIN" type="varchar(100)"/>
+            <column name="NAME" type="varchar(256)"/>
+            <column name="PHONE" type="varchar(256)"/>
+            <column name="COMPANY" type="varchar(256)"/>
+            <column name="STATUS" type="varchar(16)" defaultValue="INACTIVE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED_TIMESTAMP_UTC" type="timestamp"/>
+            <column name="UPDATED_TIMESTAMP_UTC" type="timestamp"/>
+        </createTable>
+
+        <createTable tableName="USER_CREDENTIAL">
+            <column name="ID" type="bigint">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="USER_ID" type="UUID"/>
+
+            <column name="PASSWORD" type="varchar(100)"/>
+            <column name="CREATED_TIMESTAMP_UTC" type="timestamp"/>
+            <column name="UPDATED_TIMESTAMP_UTC" type="timestamp"/>
+        </createTable>
+
+        <createTable tableName="ROLES">
+            <column name="ID" type="bigint">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="TITLE" type="varchar(200)"/>
+            <column name="CREATED_TIMESTAMP_UTC" type="timestamp"/>
+            <column name="UPDATED_TIMESTAMP_UTC" type="timestamp"/>
+        </createTable>
+
+        <createTable tableName="ROLES_AUTHORITIES">
+            <column name="ROLE_ID" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="AUTHORITY" type="varchar(32)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="USER_ROLES">
+            <column name="USER_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ROLE_ID" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="USER_CREDENTIAL"
+                                 baseColumnNames="USER_ID"
+                                 constraintName="fk_user_credential_users"
+                                 referencedTableName="USERS"
+                                 referencedColumnNames="ID"/>
+
+        <addForeignKeyConstraint baseTableName="ROLES_AUTHORITIES"
+                                 baseColumnNames="ROLE_ID"
+                                 constraintName="fk_roles_authorities_roles"
+                                 referencedTableName="ROLES"
+                                 referencedColumnNames="ID"/>
+
+        <addForeignKeyConstraint baseTableName="USER_ROLES"
+                                 baseColumnNames="USER_ID"
+                                 constraintName="fk_user_roles_users"
+                                 referencedTableName="USERS"
+                                 referencedColumnNames="ID"/>
+
+        <addForeignKeyConstraint baseTableName="USER_ROLES"
+                                 baseColumnNames="ROLE_ID"
+                                 constraintName="fk_user_roles_roles"
+                                 referencedTableName="ROLES"
+                                 referencedColumnNames="ID"/>
+
+        <createSequence sequenceName="action_token_id_seq"/>
+
+        <createTable tableName="ACTION_TOKEN">
+            <column name="ID" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="USER_ID" type="UUID">
+                <constraints nullable="true"
+                             foreignKeyName="fk_action_token_user"
+                             references="USERS(id)"/>
+            </column>
+            <column name="ACTIVATION_KEY" type="varchar(100)"/>
+            <column name="KEY_TYPE" type="varchar(100)"/>
+            <column name="CREATED_TIMESTAMP_UTC" type="timestamp"/>
+            <column name="USED_TIMESTAMP_UTC" type="timestamp"/>
+        </createTable>
+
+        <createTable tableName="INVOICE">
+            <column name="ID" type="UUID">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="LOAN_TYPE" type="varchar(30)"/>
+            <column name="ISSUE_DATE_UTC" type="timestamp"/>
+            <column name="LOAN_AMOUNT" type="double"/>
+            <column name="INTEREST_RATE" type="double"/>
+            <column name="AVAILABLE_FOR_INVESTMENT" type="double"/>
+
+            <column name="CREATED_TIMESTAMP_UTC" type="timestamp"/>
+            <column name="UPDATED_TIMESTAMP_UTC" type="timestamp"/>
+        </createTable>
+
+        <createTable tableName="INVESTMENT">
+            <column name="ID" type="UUID">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="USER_ID" type="UUID">
+                <constraints nullable="true"
+                             foreignKeyName="fk_investment_user"
+                             references="USERS(id)"/>
+            </column>
+            <column name="TOTAL_AMOUNT" type="double"/>
+            <column name="CREATED_TIMESTAMP_UTC" type="timestamp"/>
+            <column name="UPDATED_TIMESTAMP_UTC" type="timestamp"/>
+        </createTable>
+
+        <createTable tableName="INVESTMENT_ENTRY">
+            <column name="ID" type="UUID">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="INVESTMENT_ID" type="UUID">
+                <constraints nullable="true"
+                             foreignKeyName="fk_investments_entries"
+                             references="INVESTMENT(id)"/>
+            </column>
+            <column name="INVOICE_ID" type="UUID">
+                <constraints nullable="true"
+                             foreignKeyName="fk_investment_entry_invoice"
+                             references="INVOICE(id)"/>
+            </column>
+            <column name="AMOUNT" type="double"/>
+            <column name="CREATED_TIMESTAMP_UTC" type="timestamp"/>
+            <column name="UPDATED_TIMESTAMP_UTC" type="timestamp"/>
+        </createTable>
+
+    </changeSet>
+
+    <changeSet id="2" author="mazvydas.mackevicius@debitum.network">
+        <addColumn tableName="INVOICE">
+            <column name="ADVANCE_RATE" type="double"/>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

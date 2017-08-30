@@ -1,0 +1,110 @@
+{
+  "details": {
+    "remoteAddress": "10.32.92.243",
+    "sessionId": null,
+    "tokenValue": "85637b01-1564-4e21-b854-fe5ec25cc4e0",
+    "tokenType": "Bearer",
+    "decodedDetails": null
+  },
+  "authorities": [
+    "ROLE_AUTHENTICATED",
+    "ROLE_USERS_EDIT",
+    "ROLE_USERS_VIEW",
+    "ROLE_INVOICE_VIEW",
+    "ROLE_INVOICE_EDIT",
+    "ROLE_INVESTMENTS_EDIT",
+    "ROLE_INVESTMENTS_VIEW"
+  ],
+  "authenticated": true,
+  "userAuthentication": {
+    "details": {
+      "grant_type": "password",
+      "username": "info@debifo.lt"
+    },
+    "authorities": [
+      "ROLE_AUTHENTICATED",
+      "ROLE_USERS_EDIT",
+      "ROLE_USERS_VIEW",
+      "ROLE_INVOICE_VIEW",
+      "ROLE_INVOICE_EDIT",
+      "ROLE_INVESTMENTS_EDIT",
+      "ROLE_INVESTMENTS_VIEW"
+    ],
+    "authenticated": true,
+    "principal": {
+      "password": null,
+      "username": "info@debifo.lt",
+      "authorities": [
+        "ROLE_AUTHENTICATED",
+        "ROLE_USERS_EDIT",
+        "ROLE_USERS_VIEW",
+        "ROLE_INVOICE_VIEW",
+        "ROLE_INVOICE_EDIT",
+        "ROLE_INVESTMENTS_EDIT",
+        "ROLE_INVESTMENTS_VIEW"
+      ],
+      "accountNonExpired": true,
+      "accountNonLocked": true,
+      "credentialsNonExpired": true,
+      "enabled": true,
+      "id": "8180d9a4-7bfc-11e7-bb31-be2e44b06b34",
+      "login": "info@debifo.lt",
+      "phone": "+37060000000",
+      "company": "Debitum",
+      "name": "Test Tester",
+      "debugToken": "1234",
+      "debugTokenEnabled": true,
+      "status": "ACTIVE"
+    },
+    "credentials": null,
+    "name": "info@debifo.lt"
+  },
+  "principal": {
+    "password": null,
+    "username": "info@debifo.lt",
+    "authorities": [
+      "ROLE_AUTHENTICATED",
+      "ROLE_USERS_EDIT",
+      "ROLE_USERS_VIEW",
+      "ROLE_INVOICE_VIEW",
+      "ROLE_INVOICE_EDIT",
+      "ROLE_INVESTMENTS_EDIT",
+      "ROLE_INVESTMENTS_VIEW"
+    ],
+    "accountNonExpired": true,
+    "accountNonLocked": true,
+    "credentialsNonExpired": true,
+    "enabled": true,
+    "id": "8180d9a4-7bfc-11e7-bb31-be2e44b06b34",
+    "login": "info@debifo.lt",
+    "phone": "+37060000000",
+    "company": "Debitum",
+    "name": "Test Tester",
+    "debugToken": "1234",
+    "debugTokenEnabled": true,
+    "status": "ACTIVE"
+  },
+  "credentials": "",
+  "oauth2Request": {
+    "clientId": "debitumpapp",
+    "scope": [
+      "read",
+      "write"
+    ],
+    "requestParameters": {
+      "grant_type": "password",
+      "username": "info@debifo.lt"
+    },
+    "resourceIds": [],
+    "authorities": [],
+    "approved": true,
+    "refresh": false,
+    "redirectUri": null,
+    "responseTypes": [],
+    "extensions": {},
+    "grantType": "password",
+    "refreshTokenRequest": null
+  },
+  "clientOnly": false,
+  "name": "info@debifo.lt"
+}

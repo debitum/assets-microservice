@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+
+
+    <changeSet id="3" author="andrius.bilinevicius@inntec.lt">
+        <addColumn tableName="INVOICE">
+            <column name="ORIGINATOR" type="varchar(256)" />
+            <column name="LOAN_BALANCE" type="double" />
+            <column name="TERM" type="date" />
+            <column name="LIST_DATE" type="date" />
+            <column name="BUSINESS_SECTOR" type="varchar(256)" />
+            <column name="DESCRIPTION" type="clob" />
+            <column name="INVOICE_TRANSACTION" type="varchar(256)" />
+            <column name="CREDIT_RANK" type="varchar(256)" />
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="4" author="mazvydas.mackevicius@debitum.network">
+        <addColumn tableName="INVESTMENT">
+            <column name="CONTRACT_TOKEN" type="varchar(256)" />
+            <column name="STATUS" type="varchar(50)" />
+            <column name="TOTAL_AMOUNT_ETH" type="bigint"/>
+        </addColumn>
+
+        <addColumn tableName="INVESTMENT_ENTRY">
+            <column name="STATUS" type="varchar(50)" />
+            <column name="AMOUNT_ETH" type="bigint"/>
+            <column name="REPAID_AMOUNT_ETH" type="bigint"/>
+        </addColumn>
+
+        <addColumn tableName="INVOICE">
+            <column name="STATUS" type="varchar(50)" />
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="5" author="mazvydas.mackevicius@debitum.network">
+        <modifyDataType tableName="ACTION_TOKEN" columnName="USER_ID" newDataType="UUID"/>
+    </changeSet>
+
+
+</databaseChangeLog>

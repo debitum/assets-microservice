@@ -1,0 +1,4 @@
+id;login;name;phone;company;status;updated_timestamp_utc;created_timestamp_utc
+f954f046-7bfc-11e7-bb31-be2e44b06b34;admin@debitum.network;Justas;+370999;Debitum network;ACTIVE;2000-01-01T00:00:00.000Z;2000-01-01T00:00:00.000Z
+f954f7a8-7bfc-11e7-bb31-be2e44b06b34;client1@debitum.network;Client 1;+370999;Debitum network;PENDING;2000-01-01T00:00:00.000Z;2000-01-01T00:00:00.000Z
+f954f974-7bfc-11e7-bb31-be2e44b06b34;client2@debitum.network;Client 2;+370999;Debitum network;PENDING;2000-01-01T00:00:00.000Z;2000-01-01T00:00:00.000Z

@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: assets
+  profiles:
+    active: local
+  cloud:
+    config:
+       failFast: true
+       uri:  http://config-service:8888
+       retry:
+          initialInterval: 2000
+          multiplier: 2
+          maxAttempts: 20
+          maxInterval: 16000
+logging:
+#IT'S SWAGGER ISSUE https://github.com/springfox/springfox/issues/1100
+  level.io.swagger.models.parameters.AbstractSerializableParameter: ERROR
+
+---
+spring:
+  profiles: dev
+  cloud.config.uri:  http://config-service:8888
+
+---
+spring:
+  profiles: prod
+  cloud.config.uri:  http://config-service:8888

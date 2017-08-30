@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title >DEBITUM investment added to ethereum blockchain</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<p>Hello,</p>
+<p>
+    Your investment with token identifier  <b th:text="${investmentToken}"></b> was added to Ethereum  blockchain.
+    To pay for contract please add  smart contract with address <b th:text="${smartContractAddress}"></b>
+    to your wallet and choose method <i>sendCoin</i> for send eher for investment.
+    In method <i>sendCoin</i> please define investment identifier <b th:text="${investmentToken}"></b> and additionally value of ether amount
+    <i th:text="${etherAmount}"></i> <i>ETH</i> to pay for investment.
+</p>
+
+<p>
+    <span>Thanks, </span>
+    <br />
+    <em>Debitum team</em>
+</p>
+</body>
+</html>

@@ -1,0 +1,67 @@
+---
+eureka:
+  client:
+    fetchRegistry: false
+    registerWithEureka: false
+    server:
+      waitTimeInMsWhenSyncEmpty: 0
+liquibase:
+  changeLog: "classpath:db/changelog/master-test.xml"
+server:
+  context-path: /assets/
+  port: "${PORTS:7001}"
+
+security:
+  basic:
+    enabled: false
+  oauth2:
+    resource:
+       userInfoUri: http://localhost:9999/user
+
+spring:
+  application:
+    name: test-assets-service
+  datasource:
+
+    url: "jdbc:h2:mem:assets;MODE=PostgreSQL;DB_CLOSE_ON_EXIT=TRUE"
+  mail:
+    port: 1025
+    host: localhost
+    username:
+    password:
+    protocol: smtp
+    from: me@localhost
+    properties:
+        mail.smtp.auth: false
+        mail.smtp.starttls.enable: false
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show_sql: true
+
+
+logging:
+  config:
+  #level.org.springframework: DEBUG
+
+debitum:
+  url: "http://debitum.network"
+
+ribbon:
+  eureka:
+    enabled: false
+
+hystrix:
+  command:
+    default:
+      circuitBreaker:
+        enabled: false
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+
+
+
+
+

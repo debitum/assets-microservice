@@ -1,0 +1,28 @@
+spring:
+  jpa:
+    properties:
+      jadira.usertype:
+        autoRegisterUserTypes: true
+        javaZone: UTC
+        databaseZone: UTC
+  jackson:
+    serialization:
+      write_dates_as_timestamps: false
+  hateoas:
+    use-hal-as-default-json-media-type: false
+
+
+management:
+  context-path: /management
+
+user-authorities:
+  actionToken:
+    passwordRemind:
+      expiresAfterDays: 7
+    initialPasswordSet:
+      expiresAfterDays: 7
+
+investments:
+  expiresAfterDays: 1
+
+
