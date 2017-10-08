@@ -25,6 +25,7 @@ class UserAuthorityNotificationService implements UserNotificationService {
     private final JavaMailSender javaMailSender;
     private String mailFrom;
     private String debitumUrl;
+    private String supportEmail;
     private final SpringTemplateEngine templateEngine;
     private static final String USERS_INITIAL_PASSWORD_CHANGE_EMAIL = "initialPasswordChangeEmail";
     private static final String USERS_PASSWORD_REMINDER_EMAIL = "passwordReminderEmail";
@@ -35,11 +36,14 @@ class UserAuthorityNotificationService implements UserNotificationService {
             JavaMailSender javaMailSender,
             SpringTemplateEngine templateEngine,
             @Value("${spring.mail.from}") String mailFrom,
-            @Value("${debitum.url}") String debitumUrl) {
+            @Value("${debitum.url}") String debitumUrl,
+            @Value("${debitum.supportEmail}") String supportEmail
+            ) {
         this.javaMailSender = javaMailSender;
         this.templateEngine = templateEngine;
         this.mailFrom = mailFrom;
         this.debitumUrl = debitumUrl;
+        this.supportEmail = supportEmail;
     }
 
     @Override
@@ -104,6 +108,8 @@ class UserAuthorityNotificationService implements UserNotificationService {
 
         parameters.put("login",
                 receiver);
+        parameters.put("supportEmail",
+                supportEmail);
 
         parameters.put("tokenExpirationDate", tokenExpirationDate);
 

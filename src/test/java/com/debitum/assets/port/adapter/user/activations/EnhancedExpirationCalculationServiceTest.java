@@ -64,7 +64,7 @@ public class EnhancedExpirationCalculationServiceTest extends IntegrationTestBas
         int deleted = expirationCalculationService.deleteExpiredInvestments();
 
         //then
-        assertThat(deleted).isEqualTo(3);
+        assertThat(deleted).isEqualTo(4);
     }
 
 }

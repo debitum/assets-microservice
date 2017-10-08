@@ -1,7 +1,10 @@
 package com.debitum.assets.resource.dashboard;
 
 import com.debitum.assets.domain.model.dashboard.Dashboard;
+import com.debitum.assets.domain.model.investment.InvestmentEntry;
 import io.swagger.annotations.ApiModel;
+
+import java.util.List;
 
 @ApiModel(
         value = "DashboardDTO",
@@ -11,6 +14,7 @@ public class DashboardDTO {
 
     private UsersInvestmentsStatisticsDTO myInvestments;
     private RepaymentsDTO repayments;
+
 
     public UsersInvestmentsStatisticsDTO getMyInvestments() {
         return myInvestments;
@@ -28,9 +32,17 @@ public class DashboardDTO {
         this.repayments = repayments;
     }
 
-    public static DashboardDTO from(Dashboard dashboard) {
+    public static DashboardDTO from(Dashboard dashboard,
+                                    List<InvestmentEntry> currentUsersInvestmentEntries,
+                                    List<InvestmentEntry> investmentEntries) {
         DashboardDTO dto = new DashboardDTO();
-        dto.setMyInvestments(UsersInvestmentsStatisticsDTO.from(dashboard.getMyInvestments()));
+        dto.setMyInvestments(
+                UsersInvestmentsStatisticsDTO.from(
+                        dashboard.getMyInvestments(),
+                        currentUsersInvestmentEntries,
+                        investmentEntries
+                )
+        );
         dto.setRepayments(RepaymentsDTO.from(dashboard.getRepayments()));
         return dto;
     }

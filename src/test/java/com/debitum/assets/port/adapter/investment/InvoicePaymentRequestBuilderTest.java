@@ -32,8 +32,8 @@ public class InvoicePaymentRequestBuilderTest extends IntegrationTestBase {
 
         //then
         assertThat(request).isNotNull();
-        assertThat(request.getTokens().toString()).isEqualTo("65f4458e;e3c42b12");
-        assertThat(request.getInvoiceEntries().toString()).isEqualTo("00b583c9-8229-4e77-9c5e-684a41ff4fae;14ab4c32-28d2-4887-8210-89566709593a");
+        assertThat(request.getTokens().toString()).isEqualTo("65f4458e;e3c42b12;68c4244d");
+        assertThat(request.getInvoiceEntries().toString()).isEqualTo("00b583c9-8229-4e77-9c5e-684a41ff4fae;14ab4c32-28d2-4887-8210-89566709593a;d19854b3-5f06-463f-bb0c-b753a3fe7e7e");
         assertThat(request.getPays().getValue()).isNotEmpty();
         request.getPays().getValue().stream().forEach(pay ->
                 assertThat(pay.getValue().intValueExact()).isGreaterThan(0)

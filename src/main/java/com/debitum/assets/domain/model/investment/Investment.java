@@ -109,7 +109,6 @@ public class Investment extends AuditedEntity implements UsersProperty {
         Validate.notNull(amount, "Amount is mandatory for investment entry");
         Validate.isTrue(amount > 0, "Amount must be > 0");
         InvestmentEntry entry = new InvestmentEntry(invoiceId, getId(), amount, coinPrice);
-        this.totalAmount += amount;
         return entry;
     }
 
@@ -132,5 +131,18 @@ public class Investment extends AuditedEntity implements UsersProperty {
             DomainEventPublisher.publish(new InvestmentPaid(this));
         }
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Investment{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", contractToken='" + contractToken + '\'' +
+                ", totalAmount=" + totalAmount +
+                ", totalAmountEth=" + totalAmountEth +
+                ", investments=" + investments +
+                ", status=" + status +
+                '}';
     }
 }

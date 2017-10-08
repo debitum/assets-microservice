@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.Utf8String;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
@@ -113,6 +114,7 @@ class EnhancedDebtCollectorContractWallet implements DebtCollectorContractWallet
             WalletFile walletFile = null;
             try {
                 walletFile = objectMapper.readValue(walletSource, WalletFile.class);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -129,9 +131,10 @@ class EnhancedDebtCollectorContractWallet implements DebtCollectorContractWallet
                     ManagedTransaction.GAS_PRICE,
                     BigInteger.valueOf(4_700_000)
             );
+            final Address clientAddress = new Address(Numeric.prependHexPrefix(walletFile.getAddress()));
             new Thread(() -> {
                 try {
-                    newDebtCoverageCollector.sendCoin(new Utf8String(token), BigInteger.valueOf(((long) (amountEth * 1000000000000000000L)))).get();
+                    newDebtCoverageCollector.sendCoin(new Utf8String(token), clientAddress, BigInteger.valueOf(((long) (amountEth * 1000000000000000000L)))).get();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {

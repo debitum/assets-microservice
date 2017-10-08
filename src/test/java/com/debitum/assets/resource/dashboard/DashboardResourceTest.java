@@ -23,6 +23,8 @@ public class DashboardResourceTest extends AuthenticatedIntegrationTestBase {
         //then
         assertThat(dashboard.getRepayments().getTotalInvestmentsEth()).isGreaterThan(0);
         assertThat(dashboard.getMyInvestments().getTotal()).isGreaterThan(0);
+        assertThat(dashboard.getMyInvestments().getAllUserInvestments().getCreatedOnKeys()).hasSize(2);
+        assertThat(dashboard.getMyInvestments().getAllUserRepayments().getAmountEthValues()).hasSize(1);
     }
 
     @Override

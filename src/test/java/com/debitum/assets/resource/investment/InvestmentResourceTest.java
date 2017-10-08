@@ -103,6 +103,20 @@ public class InvestmentResourceTest extends AuthenticatedIntegrationTestBase {
         assertThat(error.getErrorMsg()).isEqualTo("User cannot access domain resource");
     }
 
+    @Test
+    public void givenExistingInvestmentEntries_whenTryingToGetInvestmentEntries_thenInvestmentEntriesOfCurrentUserReturned() throws Exception {
+        //given
+        String EXISTING_INVESTMENT_ID = "68c4244d-5c57-490e-98f2-07761b994d7b";
+
+        //when
+        String contentAsString = performAuthenticatedGetRequest(
+                CLIENT_1_PRINCIPAL_TOKEN, InvestmentResource.ROOT_MAPPING + "/entries", 200, EXISTING_INVESTMENT_ID);
+        InvestmentEntryDTO[] load = objectMapper.readValue(contentAsString, InvestmentEntryDTO[].class);
+
+        //then
+        assertThat(load).hasSize(3);
+    }
+
     @Override
     public String performRequest(MockHttpServletRequestBuilder builder, int expectedStatus) throws Exception {
         return mockMvc

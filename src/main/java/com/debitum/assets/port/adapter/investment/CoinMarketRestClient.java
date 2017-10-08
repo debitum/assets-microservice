@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-@FeignClient(name = "coin-market", url = "https://coinmarketcap-nexuist.rhcloud.com")
+@FeignClient(name = "coin-market", url = "https://min-api.cryptocompare.com")
 interface CoinMarketRestClient {
 
     @RequestMapping(
-            value = "/api/eth",
+            value = "/data/pricemulti?fsyms=ETH&tsyms=USD,EUR",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     CoinInfo getPrices();
@@ -20,14 +20,13 @@ interface CoinMarketRestClient {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     class CoinInfo {
-        public String symbol;
-        public String name;
-        public Price price;
+
+        public Price ETH;
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     class Price {
-        public double eur;
-        public double usd;
+        public double EUR;
+        public double USD;
     }
 }

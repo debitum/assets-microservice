@@ -4,6 +4,7 @@ package com.debitum.assets.resource.investment;
 import com.debitum.assets.application.investment.InvestmentApplication;
 import com.debitum.assets.application.user.UserApplicationService;
 import com.debitum.assets.domain.model.investment.Investment;
+import com.debitum.assets.domain.model.investment.InvestmentEntry;
 import com.debitum.assets.domain.model.security.exception.DomainAccessException;
 import com.debitum.assets.domain.model.user.User;
 import com.debitum.assets.port.adapter.security.SecurityUtils;
@@ -156,4 +157,25 @@ class InvestmentResource {
                 .collect(Collectors.toList());
     }
 
+    @ApiOperation("Load all investment entries of current user")
+    @ApiResponses(value = {
+            @ApiResponse(code = 500, message = "Unexpected error occurred"),
+            @ApiResponse(code = 200, message = "Investment entries loaded successfully")}
+    )
+    @RequestMapping(
+            value = "/entries",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+    )
+    @ResponseStatus(HttpStatus.OK)
+    @RolesAllowed({ROLE_INVESTMENTS_EDIT, ROLE_INVESTMENTS_VIEW})
+    public List<InvestmentEntryDTO> findAllInvestmentEntries() {
+        List<InvestmentEntry> investmentEntries = investmentApplication.investmentEntriesOfUser(
+                SecurityUtils.getCurrentUser().getId()
+        );
+
+        return investmentEntries.stream()
+                .map(InvestmentEntryDTO::from)
+                .collect(Collectors.toList());
+    }
 }

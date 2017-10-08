@@ -2,8 +2,15 @@ package com.debitum.assets.resource.dashboard;
 
 
 import com.debitum.assets.domain.model.dashboard.UsersInvestmentsStatistics;
+import com.debitum.assets.domain.model.investment.InvestmentEntry;
+import com.debitum.assets.domain.model.investment.InvestmentEntryStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
+import java.util.List;
+
+import static com.debitum.assets.domain.model.investment.CoinPrice.convertEthAmountToRepresentative;
+import static com.debitum.assets.domain.model.investment.InvestmentEntryStatus.REPAID;
 
 @ApiModel(
         value = "UsersInvestmentsStatisticsDTO",
@@ -25,6 +32,20 @@ public class UsersInvestmentsStatisticsDTO {
 
     @ApiModelProperty(value = "Total")
     private double total;
+
+    @ApiModelProperty(value = "Current authenticated user investments")
+    private PaymentStatisticsDTO myInvestments;
+
+
+    @ApiModelProperty(value = "Current authenticated user repayments")
+    private PaymentStatisticsDTO myRepayments;
+
+    @ApiModelProperty(value = "Total user investments")
+    private PaymentStatisticsDTO allUserInvestments;
+
+
+    @ApiModelProperty(value = "Total user repayments")
+    private PaymentStatisticsDTO allUserRepayments;
 
 
     public double getDays1_15() {
@@ -67,14 +88,72 @@ public class UsersInvestmentsStatisticsDTO {
         this.total = total;
     }
 
-    public static UsersInvestmentsStatisticsDTO from(UsersInvestmentsStatistics domain) {
+    public PaymentStatisticsDTO getAllUserInvestments() {
+        return allUserInvestments;
+    }
+
+    public void setAllUserInvestments(PaymentStatisticsDTO allUserInvestments) {
+        this.allUserInvestments = allUserInvestments;
+    }
+
+    public PaymentStatisticsDTO getAllUserRepayments() {
+        return allUserRepayments;
+    }
+
+    public void setAllUserRepayments(PaymentStatisticsDTO allUserRepayments) {
+        this.allUserRepayments = allUserRepayments;
+    }
+
+    public PaymentStatisticsDTO getMyInvestments() {
+        return myInvestments;
+    }
+
+    public void setMyInvestments(PaymentStatisticsDTO myInvestments) {
+        this.myInvestments = myInvestments;
+    }
+
+    public PaymentStatisticsDTO getMyRepayments() {
+        return myRepayments;
+    }
+
+    public void setMyRepayments(PaymentStatisticsDTO myRepayments) {
+        this.myRepayments = myRepayments;
+    }
+
+    public static UsersInvestmentsStatisticsDTO from(UsersInvestmentsStatistics domain,
+                                                     List<InvestmentEntry> currentUsersInvestmentEntries,
+                                                     List<InvestmentEntry> investmentEntries) {
         UsersInvestmentsStatisticsDTO dto = new UsersInvestmentsStatisticsDTO();
+
+        dto.allUserInvestments = new PaymentStatisticsDTO();
+        dto.allUserRepayments = new PaymentStatisticsDTO();
+        constructInvestments(dto.allUserInvestments, dto.allUserRepayments, investmentEntries);
+
+        dto.myInvestments = new PaymentStatisticsDTO();
+        dto.myRepayments = new PaymentStatisticsDTO();
+        constructInvestments(dto.myInvestments, dto.myRepayments, currentUsersInvestmentEntries);
+
         dto.setDays1_15(domain.getDays1_15());
         dto.setDays16_30(domain.getDays16_30());
         dto.setDays31_60(domain.getDays31_60());
         dto.setDays60Plus(domain.getDays60Plus());
         dto.setTotal(domain.getTotal());
         return dto;
+    }
 
+    private static void constructInvestments(PaymentStatisticsDTO investments, PaymentStatisticsDTO repayments, List<InvestmentEntry> investmentEntries) {
+        investmentEntries.stream()
+                .forEach(i ->
+                        investments.add(convertEthAmountToRepresentative(i.getAmountEth()), i.getCreatedOn())
+                );
+        investments.build();
+
+        investmentEntries.stream()
+                .filter(i -> i.getStatus() == REPAID)
+                .forEach(i ->
+                        repayments.add(convertEthAmountToRepresentative(i.getRepaidAmountEth()), i.getUpdatedOn())
+
+                );
+        repayments.build();
     }
 }

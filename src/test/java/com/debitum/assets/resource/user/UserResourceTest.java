@@ -40,7 +40,7 @@ public class UserResourceTest extends AuthenticatedIntegrationTestBase {
         UserDTO[] userDTOs = objectMapper.readValue(contentAsString, UserDTO[].class);
 
         //then
-        assertThat(userDTOs.length).isEqualTo(4);
+        assertThat(userDTOs.length).isEqualTo(5);
     }
 
 
@@ -363,7 +363,7 @@ public class UserResourceTest extends AuthenticatedIntegrationTestBase {
     public void givenExistingUser_whenUpdatingPassword_thenPasswordChangedToNewOne() throws Exception {
         //given
         String NEW_PASSWORD = "new - password";
-        String OLD_PASSWORD = "SomeOldPsw";
+        String OLD_PASSWORD = "Admin1234567*";
         String LOGIN = "info@debifo.lt";
         PasswordChangeDTO passwordChange = new PasswordChangeDTO(OLD_PASSWORD, NEW_PASSWORD);
 
@@ -385,7 +385,7 @@ public class UserResourceTest extends AuthenticatedIntegrationTestBase {
         });
 
         //then
-        assertThat(users.size()).isEqualTo(4);
+        assertThat(users.size()).isEqualTo(5);
     }
 
     @Test
@@ -398,7 +398,7 @@ public class UserResourceTest extends AuthenticatedIntegrationTestBase {
         });
 
         //then
-        assertThat(users.size()).isEqualTo(4);
+        assertThat(users.size()).isEqualTo(5);
     }
 
     @Test
@@ -411,7 +411,7 @@ public class UserResourceTest extends AuthenticatedIntegrationTestBase {
         });
 
         //then
-        assertThat(users).extracting("status").containsExactly(PENDING, PENDING);
+        assertThat(users).extracting("status").containsExactly(PENDING, PENDING, PENDING);
     }
 
     @Test

@@ -40,5 +40,14 @@
         <modifyDataType tableName="ACTION_TOKEN" columnName="USER_ID" newDataType="UUID"/>
     </changeSet>
 
+    <changeSet id="6" author="mazvydas.mackevicius@debitum.network">
+        <sql>
+            delete from ROLES_AUTHORITIES where ROLE_ID=101 AND AUTHORITY IN ('ROLE_INVOICE_EDIT');
+        </sql>
+
+        <sql>
+            insert into ROLES_AUTHORITIES values(100, 'ROLE_WALLET_OWNER');
+        </sql>
+    </changeSet>
 
 </databaseChangeLog>

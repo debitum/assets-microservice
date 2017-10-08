@@ -4,7 +4,9 @@ import com.debitum.assets.domain.model.event.DomainEventPublisher;
 import com.debitum.assets.domain.model.investment.*;
 import com.debitum.assets.domain.model.investment.events.InvestmentCreated;
 import com.debitum.assets.domain.model.investment.exception.InvestmentAlreadyPaidException;
+import com.debitum.assets.domain.model.investment.exception.InvestmentNotSentToBlockchainException;
 import com.debitum.assets.port.adapter.helpers.HibernateHelper;
+import org.apache.commons.lang3.Validate;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
@@ -13,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import static com.debitum.assets.domain.model.investment.InvestmentStatus.PAID;
 import static com.debitum.assets.domain.model.investment.InvestmentStatus.PENDING;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toMap;
@@ -72,7 +75,11 @@ public class InvestmentApplication {
     }
 
     public void sendCoinForInvestment(Investment investment, String walletSource, String password) {
-        if (investment.getStatus() != PENDING) {
+        if (investment.getStatus() == PENDING) {
+            throw new InvestmentNotSentToBlockchainException();
+        }
+
+        if (investment.getStatus() == PAID) {
             throw new InvestmentAlreadyPaidException();
         }
         debtCollectorContractWallet.sendCoinForInvestment(
@@ -85,12 +92,14 @@ public class InvestmentApplication {
 
     public Investment markAsSentToBlockchain(String contractToken) {
         Investment investment = getByContractToken(contractToken);
+        Validate.notNull(investment, "Investment [contractToken = " + contractToken + "] not found.");
         investment.markAsSentToBlockchain();
         return HibernateHelper.cast(investmentRepository.save(investment));
     }
 
     public Investment markAsPaid(String contractToken) {
         Investment investment = getByContractToken(contractToken);
+        Validate.notNull(investment, "Investment [contractToken = " + contractToken + "] not found.");
         investment.markAsPaid();
         return HibernateHelper.cast(investmentRepository.save(investment));
     }
@@ -123,6 +132,11 @@ public class InvestmentApplication {
         return entries;
     }
 
+    public List<InvestmentEntry> investmentEntriesOfAllUsers() {
+        List<InvestmentEntry> entries = investmentEntryRepository.findAll();
+        return entries;
+    }
+
     public void execute(List<PersistInvestmentEntryCommand> commands) {
         if (isNotEmpty(commands)) {
             Investment investment = investmentRepository.get(commands.get(0).getInvestmentId());
@@ -150,6 +164,8 @@ public class InvestmentApplication {
         invoiceRepository.save(invoice);
         investmentEntryRepository.save(entry);
     }
+
+
 
 
     public static class PersistInvestmentEntryCommand {

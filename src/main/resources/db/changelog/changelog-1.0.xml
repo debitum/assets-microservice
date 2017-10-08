@@ -105,6 +105,31 @@
             <column name="USED_TIMESTAMP_UTC" type="timestamp"/>
         </createTable>
 
+        <loadUpdateData encoding="UTF-8"
+                        file="db/load-data-csv/v1.0/users/admin_user.csv"
+                        separator=";"
+                        tableName="USERS"
+                        primaryKey="id"/>
+
+        <loadUpdateData encoding="UTF-8"
+                        file="db/load-data-csv/v1.0/users/admin_user_credential.csv"
+                        separator=";"
+                        tableName="USER_CREDENTIAL"
+                        primaryKey="id"/>
+        <loadUpdateData encoding="UTF-8"
+                        file="db/load-data-csv/v1.0/users/admin_role.csv"
+                        separator=";"
+                        tableName="ROLES"
+                        primaryKey="id"/>
+        <loadData encoding="UTF-8"
+                  file="db/load-data-csv/v1.0/users/admin_role_authorities.csv"
+                  separator=";"
+                  tableName="ROLES_AUTHORITIES"/>
+        <loadData encoding="UTF-8"
+                  file="db/load-data-csv/v1.0/users/admin_user_roles.csv"
+                  separator=";"
+                  tableName="USER_ROLES"/>
+
         <createTable tableName="INVOICE">
             <column name="ID" type="UUID">
                 <constraints primaryKey="true"/>

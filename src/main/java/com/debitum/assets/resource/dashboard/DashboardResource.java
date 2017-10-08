@@ -2,6 +2,8 @@ package com.debitum.assets.resource.dashboard;
 
 
 import com.debitum.assets.application.investment.DashboardApplication;
+import com.debitum.assets.application.investment.InvestmentApplication;
+import com.debitum.assets.domain.model.investment.InvestmentEntry;
 import com.debitum.assets.port.adapter.security.SecurityUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.security.RolesAllowed;
 
+import java.util.List;
+
 import static com.debitum.assets.domain.model.user.Authority.Const.ROLE_AUTHENTICATED;
 import static com.debitum.assets.resource.config.Constants.DEFAULT_REST_API_PREFIX;
 
@@ -27,9 +31,12 @@ class DashboardResource {
     static final String ROOT_MAPPING = DEFAULT_REST_API_PREFIX + "/dashboard";
 
     private final DashboardApplication dashboardApplication;
+    private final InvestmentApplication investmentApplication;
 
-    public DashboardResource(DashboardApplication dashboardApplication) {
+    public DashboardResource(DashboardApplication dashboardApplication,
+                             InvestmentApplication investmentApplication) {
         this.dashboardApplication = dashboardApplication;
+        this.investmentApplication = investmentApplication;
     }
 
     @ApiOperation("Get dashboard info")
@@ -44,6 +51,13 @@ class DashboardResource {
     @ResponseStatus(HttpStatus.OK)
     @RolesAllowed(ROLE_AUTHENTICATED)
     public DashboardDTO get() {
-        return DashboardDTO.from(dashboardApplication.overviewForUser(SecurityUtils.getCurrentUser().getId()));
+        List<InvestmentEntry> currentUsersInvestmentEntries = investmentApplication.investmentEntriesOfUser(
+                SecurityUtils.getCurrentUser().getId()
+        );
+        return DashboardDTO.from(
+                dashboardApplication.overviewForUser(SecurityUtils.getCurrentUser().getId()),
+                currentUsersInvestmentEntries,
+                investmentApplication.investmentEntriesOfAllUsers()
+        );
     }
 }

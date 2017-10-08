@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 
 @Component
-@Profile(value = "!" + AssetsApplication.TEST_PROFILE)
+//@Profile(value = "!" + AssetsApplication.TEST_PROFILE)
 class EthereumContractEventListener {
     private final static Logger LOG = LoggerFactory.getLogger(EthereumContractEventListener.class);
 
@@ -27,8 +27,12 @@ class EthereumContractEventListener {
         new Thread(() ->
                 debtCoverageCollector.contractAddedEventObservable(DefaultBlockParameterName.EARLIEST, DefaultBlockParameterName.LATEST).subscribe(
                         contractAddedEventResponse -> {
-                            LOG.info("Contract added token = " + contractAddedEventResponse.token.toString() + " value = " + contractAddedEventResponse.value.getValue().toString());
-                            investmentApplication.markAsSentToBlockchain(contractAddedEventResponse.token.toString());
+                            try {
+                                LOG.info("Contract added token = " + contractAddedEventResponse.token.toString() + " value = " + contractAddedEventResponse.value.getValue().toString());
+                                investmentApplication.markAsSentToBlockchain(contractAddedEventResponse.token.toString());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         })
         ).start();
     }
@@ -38,8 +42,12 @@ class EthereumContractEventListener {
         new Thread(() ->
                 debtCoverageCollector.contractPaidEventObservable(DefaultBlockParameterName.EARLIEST, DefaultBlockParameterName.LATEST).subscribe(
                         contractPaidEventResponse -> {
-                            LOG.info("Contract paid token = " + contractPaidEventResponse.token.toString() + " amount = " + contractPaidEventResponse.ammount.getValue().toString() + " sender = " + contractPaidEventResponse.sender.toString());
-                            investmentApplication.markAsPaid(contractPaidEventResponse.token.toString());
+                            try {
+                                LOG.info("Contract paid token = " + contractPaidEventResponse.token.toString() + " amount = " + contractPaidEventResponse.ammount.getValue().toString() + " sender = " + contractPaidEventResponse.sender.toString());
+                                investmentApplication.markAsPaid(contractPaidEventResponse.token.toString());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         })
         ).start();
     }

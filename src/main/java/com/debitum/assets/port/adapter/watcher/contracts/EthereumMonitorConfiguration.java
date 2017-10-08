@@ -59,7 +59,7 @@ class EthereumMonitorConfiguration {
                     debtCollectorContractAddress,
                     web3, credentials,
                     ManagedTransaction.GAS_PRICE,
-                    BigInteger.valueOf(4_700_000)
+                        BigInteger.valueOf(4_700_000)
             );
         } catch (IOException e) {
             e.printStackTrace();

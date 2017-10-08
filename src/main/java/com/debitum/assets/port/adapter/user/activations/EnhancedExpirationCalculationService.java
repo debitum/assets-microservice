@@ -5,6 +5,8 @@ import com.debitum.assets.application.investment.InvestmentApplication;
 import com.debitum.assets.domain.model.user.activations.ActionTokenRepository;
 import com.debitum.assets.domain.model.user.activations.ExpirationCalculationService;
 import com.debitum.assets.domain.model.user.activations.KeyType;
+import org.hibernate.annotations.common.util.impl.LoggerFactory;
+import org.jboss.logging.Logger;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +15,7 @@ import java.time.Instant;
 
 @Component
 class EnhancedExpirationCalculationService implements ExpirationCalculationService {
+    private final Logger LOG = LoggerFactory.logger(this.getClass());
 
     private final ActionTokenRepository actionTokenRepository;
     private final ExpirationDaysProvider expirationDaysProvider;
@@ -29,6 +32,7 @@ class EnhancedExpirationCalculationService implements ExpirationCalculationServi
 
     @Scheduled(cron = "0 0 1 * * *")
     int deleteExpiredActionTokens() {
+        LOG.info("Started expired action token deletion");
         int deletedCount = 0;
         deletedCount += deleteExpiredTokens(KeyType.PASSWORD_REMIND);
         deletedCount += deleteExpiredTokens(KeyType.INITIAL_PASSWORD_SET);
@@ -38,6 +42,7 @@ class EnhancedExpirationCalculationService implements ExpirationCalculationServi
 
     @Scheduled(cron = "0 0 1 * * *")
     int deleteExpiredInvestments() {
+        LOG.info("Started expired investment deletion");
         Instant deleteBeforeDate = Instant.now().minus(Duration.ofDays(expirationDaysProvider.getInvestmentExpirationDays()));
         return investmentApplication.deleteNotPaidInvestments(deleteBeforeDate);
     }

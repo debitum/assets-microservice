@@ -22,7 +22,7 @@ public class InvestmentStatisticsResourceTest extends AuthenticatedIntegrationTe
         InvestmentStatsDTO[] statistics = objectMapper.readValue(content, InvestmentStatsDTO[].class);
 
         //then
-        assertThat(statistics).hasSize(2);
+        assertThat(statistics).hasSize(3);
         for (int i = 0; i < statistics.length; i++) {
             assertThat(statistics[i].getAmount()).isGreaterThan(0);
             assertThat(statistics[i].getInvestor()).isNotEmpty();
